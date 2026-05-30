@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ballas — <img src="shape.png" alt="Shape" style="height:18px;vertical-align:middle;margin-right:6px">Shape V1 | WL +18</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#9B4DCA;
+  --bg:#0a0a0a;
+  --bg-card:#111111;
+  --bg-card2:#161616;
+  --border:rgba(123,47,190,0.25);
+  --text:#e8e8e8;
+  --muted:#888;
+  --sidebar:260px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;overflow-x:hidden}
+
+/* PARTICLES */
+#particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-left{opacity:0;transform:translateX(-30px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal-left.visible{opacity:1;transform:translateX(0)}
+
+/* HERO ANIMATIONS */
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes glowPulse{0%,100%{text-shadow:0 0 80px rgba(123,47,190,0.8)}50%{text-shadow:0 0 140px rgba(155,77,202,1),0 0 200px rgba(123,47,190,0.5)}}
+@keyframes lineGrow{from{height:0}to{height:60px}}
+@keyframes borderGlow{0%,100%{border-color:rgba(123,47,190,0.25)}50%{border-color:rgba(155,77,202,0.6)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+
+.hero-tag{animation:fadeDown 0.8s ease 0.2s both}
+.hero-title{animation:fadeDown 0.8s ease 0.4s both,glowPulse 4s ease-in-out 1.2s infinite}
+.hero-sub{animation:fadeDown 0.8s ease 0.6s both}
+.hero-line{animation:lineGrow 0.8s ease 0.8s both}
+.hero-stats{animation:fadeDown 0.8s ease 1s both}
+
+/* SIDEBAR GLOW */
+.sidebar{animation:borderGlow 3s ease-in-out infinite}
+.sidebar-logo{background:linear-gradient(90deg,#fff,var(--accent),#fff);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite}
+
+/* NAV ITEM HOVER */
+.nav-item{transition:all 0.3s}
+.nav-item:hover .nav-item-num{color:var(--accent);transform:scale(1.2)}
+.nav-item-num{transition:all 0.3s}
+
+/* CARD ANIMATIONS */
+.card{transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s}
+.card:hover{border-color:rgba(155,77,202,0.5);transform:translateY(-3px);box-shadow:0 8px 30px rgba(123,47,190,0.15)}
+.info-box{transition:border-color 0.3s,transform 0.3s}
+.info-box:hover{border-color:var(--accent);transform:translateY(-2px)}
+.principe-card{transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s}
+.principe-card:hover{box-shadow:0 8px 25px rgba(123,47,190,0.2)}
+
+/* STATS FLOAT */
+.stat{animation:float 3s ease-in-out infinite}
+.stat:nth-child(2){animation-delay:0.5s}
+.stat:nth-child(3){animation-delay:1s}
+.stat:nth-child(4){animation-delay:1.5s}
+
+/* TIMELINE DOT PULSE */
+@keyframes dotPulse{0%,100%{box-shadow:0 0 0 0 rgba(155,77,202,0.4)}50%{box-shadow:0 0 0 8px rgba(155,77,202,0)}}
+.tl-item::before{animation:dotPulse 2s ease-in-out infinite}
+
+/* SECTION TITLE */
+.section-title{background:linear-gradient(90deg,#fff 0%,var(--accent) 50%,#fff 100%);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 6s linear infinite}
+
+/* CONFLICT CARD GLOW */
+.conflict-high:hover{box-shadow:0 8px 25px rgba(226,75,74,0.2)}
+.conflict-mid:hover{box-shadow:0 8px 25px rgba(239,159,39,0.2)}
+.conflict-low:hover{box-shadow:0 8px 25px rgba(99,153,34,0.2)}
+
+/* HRP BOX */
+.hrp-box-new{transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s}
+.hrp-box-new:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(123,47,190,0.2)}
+
+/* RANG ITEMS */
+.rang-h-item{transition:transform 0.3s,box-shadow 0.3s}
+.rang-h-item:hover{box-shadow:0 8px 25px rgba(123,47,190,0.25)}
+
+/* ANIMATED BORDER ON CARDS */
+@keyframes borderRotate{0%{background-position:0% 50%}100%{background-position:100% 50%}}
+.principe-card:hover::after{content:'';position:absolute;inset:-1px;border-radius:4px;background:linear-gradient(90deg,var(--accent),#c084fc,var(--accent));background-size:200%;animation:borderRotate 2s linear infinite;z-index:-1}
+
+/* GLOW ON SECTION LABELS */
+.section-label::before{box-shadow:0 0 8px var(--accent)}
+
+/* TIMELINE LINE ANIMATED */
+.timeline::before{background:linear-gradient(to bottom,var(--accent),#c084fc,transparent);animation:timelineGlow 3s ease-in-out infinite}
+@keyframes timelineGlow{0%,100%{opacity:0.5}50%{opacity:1;box-shadow:0 0 8px var(--accent)}}
+
+/* CARD ENTRANCE */
+@keyframes cardIn{from{opacity:0;transform:translateY(20px) scale(0.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.reveal.visible{animation:cardIn 0.6s ease forwards}
+.reveal-left.visible{animation:slideIn 0.6s ease forwards}
+@keyframes slideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+
+/* RANG ARROW ANIMATED */
+.rang-h-arrow{animation:arrowPulse 1.5s ease-in-out infinite}
+@keyframes arrowPulse{0%,100%{opacity:0.3;transform:scale(1)}50%{opacity:1;transform:scale(1.3)}}
+
+/* HERO LINE ANIMATED */
+.hero-line{animation:lineGrow 0.8s ease 0.8s both,linePulse 2s ease-in-out 1.6s infinite}
+@keyframes linePulse{0%,100%{box-shadow:none}50%{box-shadow:0 0 10px var(--accent)}}
+
+/* SIDEBAR */
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--sidebar);background:linear-gradient(180deg,#0d0a14 0%,#080810 60%,#0d0a14 100%);display:flex;flex-direction:column;z-index:100;overflow:hidden}
+
+/* Barre de progression scroll */
+.scroll-bar{position:absolute;left:0;top:0;width:2px;background:linear-gradient(to bottom,var(--accent),#c084fc);height:0%;transition:height 0.1s;z-index:10;box-shadow:0 0 8px var(--accent)}
+
+/* Logo */
+.sidebar-logo{padding:1.5rem 1.5rem 1.2rem;position:relative}
+.sidebar-logo-big{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:6px;line-height:1;color:#fff;white-space:nowrap;display:block}
+.sidebar-logo-big span{color:var(--accent)}
+.sidebar-logo-line{width:100%;height:1px;background:linear-gradient(to right,var(--accent),transparent);margin-top:1rem}
+.sidebar-logo-sub{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:rgba(155,77,202,0.4);margin-top:8px}
+
+/* Nav */
+.sidebar-nav{flex:1;padding:0.5rem 0;display:flex;flex-direction:column}
+.nav-section{padding:2rem 1.5rem 0.6rem;font-size:7px;letter-spacing:5px;text-transform:uppercase;color:rgba(155,77,202,0.25)}
+
+.nav-item{display:flex;align-items:center;padding:0.8rem 1rem 0.8rem 1.5rem;text-decoration:none;color:rgba(255,255,255,0.3);font-size:11px;letter-spacing:2px;text-transform:uppercase;transition:all 0.4s cubic-bezier(0.25,0.8,0.25,1);position:relative;cursor:pointer;margin:2px 0;gap:10px;overflow:hidden}
+.nav-item::after{content:'';position:absolute;right:0;top:0;bottom:0;width:0;background:linear-gradient(to left,rgba(155,77,202,0.15),transparent);transition:width 0.4s ease}
+.nav-item:hover::after,.nav-item.active::after{width:100%}
+.nav-item:hover{color:#fff}
+.nav-item.active{color:#fff}
+
+.nav-item-num{font-family:'Bebas Neue',sans-serif;font-size:0.65rem;color:rgba(155,77,202,0.2);min-width:16px;transition:all 0.3s}
+.nav-item:hover .nav-item-num,.nav-item.active .nav-item-num{color:var(--accent)}
+
+.nav-item-text{flex:1;position:relative;z-index:1}
+
+.nav-item-line{height:1px;width:0;background:var(--accent);transition:width 0.4s ease;position:absolute;bottom:0;left:1.5rem;right:1rem;box-shadow:0 0 4px var(--accent)}
+.nav-item:hover .nav-item-line,.nav-item.active .nav-item-line{width:calc(100% - 2.5rem)}
+
+/* Active indicator */
+.nav-item.active{color:var(--accent)}
+.nav-item.active .nav-item-num{color:var(--accent);text-shadow:0 0 8px var(--accent)}
+
+/* FOOTER */
+.sidebar-footer{padding:1.2rem 1.5rem;border-top:1px solid rgba(155,77,202,0.08)}
+.sf-status{display:flex;align-items:center;gap:8px;font-size:8px;letter-spacing:4px;text-transform:uppercase;color:rgba(155,77,202,0.35)}
+.sf-dot{width:5px;height:5px;border-radius:50%;background:#9B4DCA;animation:blink 2s ease-in-out infinite;flex-shrink:0;box-shadow:0 0 6px var(--accent)}
+.sf-version{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:rgba(155,77,202,0.2);margin-top:4px}
+@keyframes blink{0%,100%{opacity:1;box-shadow:0 0 6px var(--accent)}50%{opacity:0.3;box-shadow:none}}
+
+/* MAIN */
+.main{margin-left:var(--sidebar);flex:1;position:relative}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 100% 70% at 50% 0%,rgba(75,0,130,0.7) 0%,transparent 70%),radial-gradient(ellipse 60% 40% at 80% 100%,rgba(75,0,130,0.3) 0%,transparent 60%);pointer-events:none}
+.hero-tag{font-size:10px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem;border:1px solid var(--border);padding:6px 18px;border-radius:2px;display:inline-block;position:relative;z-index:1}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(6rem,18vw,13rem);line-height:0.9;letter-spacing:4px;color:#fff;text-shadow:0 0 100px rgba(123,47,190,0.9);margin-bottom:1rem;position:relative;z-index:1}
+.hero-title span{color:var(--accent)}
+.hero-sub{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:3rem;position:relative;z-index:1}
+.hero-line{width:1px;height:60px;background:linear-gradient(to bottom,var(--accent),transparent);margin:0 auto 3rem;position:relative;z-index:1}
+.hero-stats{display:flex;gap:3rem;justify-content:center;position:relative;z-index:1}
+.stat{text-align:center}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#fff;line-height:1}
+.stat-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-top:4px}
+
+/* SECTIONS */
+section{padding:5rem 3rem;border-bottom:1px solid var(--border)}
+.section-label{display:flex;align-items:center;gap:12px;margin-bottom:2.5rem}
+.section-label::before{content:'';width:30px;height:2px;background:var(--accent)}
+.section-label span{font-size:10px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--accent)}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,6vw,5rem);letter-spacing:3px;color:#fff;line-height:1;margin-bottom:3rem}
+
+/* CARDS */
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:2rem;margin-bottom:1.5rem;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--accent)}
+.card-title{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:2px;color:#fff;margin-bottom:0.75rem}
+.card-text{font-size:14px;line-height:1.8;color:var(--muted)}
+
+/* INFO GRID */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.info-box{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:1.25rem 1.5rem}
+.info-box-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.info-box-value{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:1px;color:#fff}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:2rem}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--accent),transparent)}
+.tl-item{position:relative;margin-bottom:3rem;padding-left:2rem}
+.tl-item::before{content:'';position:absolute;left:-2.45rem;top:6px;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--bg)}
+.tl-year{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:3px;color:var(--accent);margin-bottom:6px}
+.tl-title{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:2px;color:#fff;margin-bottom:0.75rem}
+.tl-text{font-size:14px;line-height:1.9;color:var(--muted)}
+.big-quote{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.5rem,3vw,2.2rem);letter-spacing:2px;color:var(--accent);border-left:3px solid var(--accent);padding:1.5rem 2rem;margin:3rem 0;line-height:1.3;background:var(--bg-card);border-radius:0 4px 4px 0}
+
+/* CONFLITS */
+.conflict-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.conflict-card{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:1.5rem;position:relative;overflow:hidden;transition:transform 0.2s,border-color 0.3s}
+.conflict-card:hover{transform:translateY(-3px)}
+.conflict-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px}
+.conflict-high::before{background:#e24b4a}
+.conflict-mid::before{background:#ef9f27}
+.conflict-low::before{background:#639922}
+.conflict-high{border-color:rgba(226,75,74,0.2)}
+.conflict-high:hover{border-color:rgba(226,75,74,0.5)}
+.conflict-mid{border-color:rgba(239,159,39,0.2)}
+.conflict-mid:hover{border-color:rgba(239,159,39,0.4)}
+.conflict-low{border-color:rgba(99,153,34,0.2)}
+.conflict-low:hover{border-color:rgba(99,153,34,0.4)}
+.cc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem}
+.cc-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:rgba(255,255,255,0.08);line-height:1}
+.cc-level{font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 8px;border-radius:2px}
+.level-high{color:#e24b4a;border:1px solid rgba(226,75,74,0.4)}
+.level-mid{color:#ef9f27;border:1px solid rgba(239,159,39,0.4)}
+.level-low{color:#639922;border:1px solid rgba(99,153,34,0.4)}
+.cc-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px;color:#fff;margin-bottom:0.5rem}
+.cc-desc{font-size:13px;line-height:1.7;color:var(--muted)}
+
+/* PRINCIPES */
+.principes-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.principe-card{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:1.5rem;position:relative;overflow:hidden;transition:border-color 0.3s,transform 0.2s}
+.principe-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.principe-card::before{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform 0.3s}
+.principe-card:hover::before{transform:scaleX(1)}
+.pc-num{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:rgba(155,77,202,0.15);line-height:1;display:block;margin-bottom:0.5rem}
+.pc-text{font-size:14px;line-height:1.7;color:var(--muted)}
+
+/* RANGS */
+.rang-horizontal{display:flex;align-items:stretch;gap:8px;margin-bottom:1.5rem;overflow-x:auto;padding-bottom:8px}
+.rang-h-item{flex:1;min-width:150px;border-radius:4px;padding:1.5rem 1rem;display:flex;flex-direction:column;gap:6px;transition:transform 0.2s}
+.rang-h-item:hover{transform:translateY(-4px)}
+.rang-h-arrow{display:flex;align-items:center;color:rgba(155,77,202,0.3);font-size:1.2rem;padding:0 2px;flex-shrink:0}
+.rang-h-num{font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:3px;opacity:0.6}
+.rang-h-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:2px;color:#fff}
+.rang-h-sub{font-size:9px;letter-spacing:2px;text-transform:uppercase;opacity:0.6;margin-bottom:6px}
+.rang-h-desc{font-size:12px;line-height:1.6;margin-top:auto}
+.rang-og{background:rgba(155,77,202,0.25);border:1px solid rgba(155,77,202,0.5)}
+.rang-og .rang-h-num,.rang-og .rang-h-sub{color:#c084fc}
+.rang-og .rang-h-desc{color:#d8b4fe}
+.rang-shot{background:rgba(99,56,172,0.2);border:1px solid rgba(99,56,172,0.4)}
+.rang-shot .rang-h-num,.rang-shot .rang-h-sub{color:#a78bfa}
+.rang-shot .rang-h-desc{color:#c4b5fd}
+.rang-balla{background:rgba(75,0,130,0.2);border:1px solid rgba(75,0,130,0.4)}
+.rang-balla .rang-h-num,.rang-balla .rang-h-sub{color:#8b5cf6}
+.rang-balla .rang-h-desc{color:#a5b4fc}
+.rang-young{background:rgba(45,0,82,0.3);border:1px solid rgba(45,0,82,0.5)}
+.rang-young .rang-h-num,.rang-young .rang-h-sub{color:#7c3aed}
+.rang-young .rang-h-desc{color:#93c5fd}
+.rang-prospect{background:rgba(20,20,20,0.5);border:1px solid rgba(80,80,80,0.3)}
+.rang-prospect .rang-h-num,.rang-prospect .rang-h-sub{color:var(--muted)}
+.rang-prospect .rang-h-desc{color:var(--muted)}
+
+/* HRP */
+.hrp-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem}
+.hrp-box-new{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:1.5rem;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;transition:border-color 0.3s}
+.hrp-box-new:hover{border-color:var(--accent)}
+.hrp-box-new::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform 0.3s}
+.hrp-box-new:hover::before{transform:scaleX(1)}
+.hrp-box-mid{border-color:rgba(155,77,202,0.4)}
+.hrp-box-mid::before{transform:scaleX(1)}
+.hrp-box-icon{font-size:1.8rem}
+.hrp-box-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--accent)}
+.hrp-divider{width:100%;height:1px;background:var(--border)}
+.hrp-box-text{font-size:12px;line-height:1.9;color:var(--muted)}
+.hrp-membres p{font-size:11px;color:var(--muted);line-height:1.7}
+.hrp-membres span{color:var(--accent);margin:0 4px}
+.hrp-leaders{display:flex;flex-direction:column;gap:12px}
+.hrp-leader-row{display:flex;align-items:center;gap:12px}
+.hrp-leader-num{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:rgba(155,77,202,0.2);line-height:1;flex-shrink:0}
+.hrp-leader-title{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:1px;color:#fff}
+.hrp-leader-age{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent)}
+
+/* SEP */
+.sep{margin:3rem 0;display:flex;align-items:center;gap:1rem}
+.sep::before,.sep::after{content:'';flex:1;height:1px;background:var(--border)}
+.sep span{font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:3px;color:var(--accent);opacity:0.6}
+
+/* PRINCIPE LIST */
+.principe-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+.principe-list li{display:flex;align-items:flex-start;gap:12px;font-size:14px;color:var(--muted);line-height:1.5}
+.principe-list li::before{content:'//';color:var(--accent);font-family:'Bebas Neue',sans-serif;font-size:14px;flex-shrink:0;padding-top:1px}
+
+/* CURSOR */
+.cursor-light{pointer-events:none;position:fixed;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(123,47,190,0.25) 0%,rgba(123,47,190,0.1) 40%,transparent 70%);transform:translate(-50%,-50%);transition:left 0.08s ease,top 0.08s ease;z-index:0;top:0;left:0}
+
+/* FOOTER */
+footer{text-align:center;padding:3rem;border-top:1px solid var(--border);color:var(--muted);font-size:11px;letter-spacing:2px;text-transform:uppercase}
+footer img{height:24px;opacity:0.6;display:block;margin:0 auto 8px}
+
+@media(max-width:900px){
+  .sidebar{display:none}
+  .main{margin-left:0}
+  .info-grid,.principes-grid,.conflict-grid,.hrp-grid-3{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="scroll-bar" id="scrollBar"></div>
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-big">BAL<span>LA</span>S</div>
+    <div class="sidebar-logo-line"></div>
+    <div class="sidebar-logo-sub">Shape V1 | WL +18</div>
+  </div>
+  <nav class="sidebar-nav">
+    <p class="nav-section">Navigation</p>
+    <a class="nav-item active" href="#accueil"><span class="nav-item-num">01</span><span class="nav-item-text">Accueil</span><span class="nav-item-line"></span></a>
+    <a class="nav-item" href="#histoire"><span class="nav-item-num">02</span><span class="nav-item-text">Histoire</span><span class="nav-item-line"></span></a>
+    <a class="nav-item" href="#conflits"><span class="nav-item-num">03</span><span class="nav-item-text">Rivalités & Conflits</span><span class="nav-item-line"></span></a>
+    <p class="nav-section">La Charte</p>
+    <a class="nav-item" href="#infos"><span class="nav-item-num">04</span><span class="nav-item-text">Informations</span><span class="nav-item-line"></span></a>
+    <a class="nav-item" href="#principes"><span class="nav-item-num">05</span><span class="nav-item-text">Principes moraux</span><span class="nav-item-line"></span></a>
+    <a class="nav-item" href="#rangs"><span class="nav-item-num">06</span><span class="nav-item-text">Hiérarchie des rangs</span><span class="nav-item-line"></span></a>
+    <a class="nav-item" href="#localisation"><span class="nav-item-num">07</span><span class="nav-item-text">Localisation</span><span class="nav-item-line"></span></a>
+    <p class="nav-section">Hors Roleplay</p>
+    <a class="nav-item" href="#hrp"><span class="nav-item-num">08</span><span class="nav-item-text">Dossier HRP</span><span class="nav-item-line"></span></a>
+    <a class="nav-item" href="#motivation"><span class="nav-item-num">09</span><span class="nav-item-text">Motivation</span><span class="nav-item-line"></span></a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sf-status"><span class="sf-dot"></span>Dossier actif</div>
+    <div class="sf-version">Purple Nation · LSV</div>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+  <!-- ACCUEIL -->
+  <section id="accueil" class="hero">
+    <p class="hero-tag">Dossier Ballas — Shape V1 | WL +18</p>
+    <h1 class="hero-title">BAL<span>LA</span>S</h1>
+    <p class="hero-sub">Los Santos · South Side · Purple Nation</p>
+    <div class="hero-line"></div>
+    <div class="hero-stats">
+      <div class="stat"><p class="stat-num">70s</p><p class="stat-label">Fondés dans les</p></div>
+      <div class="stat"><p class="stat-num">3</p><p class="stat-label">Sets actifs</p></div>
+      <div class="stat"><p class="stat-num">10+</p><p class="stat-label">Membres</p></div>
+      <div class="stat"><p class="stat-num">🟣</p><p class="stat-label">Couleur violette</p></div>
+    </div>
+  </section>
+
+  <!-- HISTOIRE -->
+  <section id="histoire">
+    <div class="section-label"><span>Histoire</span></div>
+    <h2 class="section-title">L'Histoire des Ballas</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <p class="tl-year">Années 70</p>
+        <p class="tl-title">Les Origines</p>
+        <p class="tl-text">Les Ballas ne sont pas nés d'un jour à l'autre comme ça. Dans les rues de South Los Santos, des jeunes afro des quartiers défavorisés commencent à s'organiser. Pas encore un gang structuré, juste des hommes qui refusent de subir. Bloc par bloc, leur influence grandit silencieusement.</p>
+      </div>
+      <div class="tl-item">
+        <p class="tl-year">Années 80</p>
+        <p class="tl-title">La Montée en Puissance</p>
+        <p class="tl-text">Les Ballas s'imposent de plus en plus dans le secteur criminel de Los Santos. Ils structurent l'organisation en trois sets distincts : les South Ranch Ballas, les Eastside Ballas, et les Original Covenant Ballas. Trois groupes, une seule nation violette. Le trafic de crack devient leur première source de revenus et d'influence.</p>
+      </div>
+      <div class="tl-item">
+        <p class="tl-year">Années 90</p>
+        <p class="tl-title">La Guerre contre les Familles</p>
+        <p class="tl-text">La rivalité avec les Familles explose. Une guerre de territoire longue et brutale s'installe dans tout le sud de Los Santos. Les Ballas utilisent leur crack pour affaiblir les Familles de l'intérieur, une stratégie bien efficace. Des blocs changent de mains, des membres meurent des deux côtés. Les Ballas finissent par dominer la majorité du Sud.</p>
+      </div>
+      <div class="tl-item">
+        <p class="tl-year">2000s</p>
+        <p class="tl-title">Consolidation du Territoire</p>
+        <p class="tl-text">Les Ballas consolident leur emprise sur Davis et Rancho. D'autres factions tentent de s'imposer : les Aztecas et les Vagos, mais se heurtent à nous : une résistance bien organisée de A à Z. Les Ballas ne lâchent pas si facilement. Leur réputation de brutalité font de l'organisation une des plus criminelle et la plus redoutée du sud de Los Santos.</p>
+      </div>
+      <div class="tl-item">
+        <p class="tl-year">Aujourd'hui</p>
+        <p class="tl-title">La Nouvelle Génération</p>
+        <p class="tl-text">Une nouvelle génération porte l'héritage des anciens. Ils ont pas choisi cette vie par hasard, ils ont grandi dans ces rues, vu leurs frères tomber. Le violet n'est pas une couleur pour eux, c'est une identité et un hommage. Ils tiennent la cité, ils protègent leur quartier, et ils répondent à chaque affront.</p>
+      </div>
+    </div>
+    <div class="big-quote">"Ce quartier a été payé en sang. Il sera défendu de la même manière."</div>
+  </section>
+
+  <!-- CONFLITS -->
+  <section id="conflits">
+    <div class="section-label"><span>Rivalités & Conflits</span></div>
+    <h2 class="section-title">Nos Ennemis</h2>
+    <div class="conflict-grid">
+      <div class="conflict-card conflict-high">
+        <div class="cc-header"><span class="cc-num">01</span><span class="cc-level level-high">ENNEMI JURÉ</span></div>
+        <p class="cc-title">Les Familles</p>
+        <p class="cc-desc">Rivalité historique, la plus ancienne et la plus violente de Los Santos. Guerre permanente pour le contrôle des quartiers sud. Aucune trêve possible.</p>
+      </div>
+      <div class="conflict-card conflict-mid">
+        <div class="cc-header"><span class="cc-num">02</span><span class="cc-level level-mid">RIVAL DANGEREUX</span></div>
+        <p class="cc-title">Los Santos Vagos</p>
+        <p class="cc-desc">Tensions territoriales régulières. Malgré d'anciens accords entre hauts gradés, les affrontements de rue restent fréquents.</p>
+      </div>
+      <div class="conflict-card conflict-mid">
+        <div class="cc-header"><span class="cc-num">03</span><span class="cc-level level-mid">TENSION PERMANENTE</span></div>
+        <p class="cc-title">Les Aztecas</p>
+        <p class="cc-desc">Conflits d'intérêts sur les zones frontalières. Toute intrusion dans le territoire Ballas est perçue comme une déclaration de guerre.</p>
+      </div>
+      <div class="conflict-card conflict-low">
+        <div class="cc-header"><span class="cc-num">04</span><span class="cc-level level-low">SOUS CONTRÔLE</span></div>
+        <p class="cc-title">Conflits Internes</p>
+        <p class="cc-desc">Des dissensions ont parfois éclaté entre les trois sets. L'unité de la nation violette a déjà été mise à l'épreuve — et en est ressortie renforcée.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- INFOS RP -->
+  <section id="infos">
+    <div class="section-label"><span>La Charte — Partie Roleplay</span></div>
+    <h2 class="section-title">La Charte</h2>
+    <div class="info-grid">
+      <div class="info-box"><p class="info-box-label">Type de groupe</p><p class="info-box-value">Gang de rue afro-américain</p></div>
+      <div class="info-box"><p class="info-box-label">Nom du groupe</p><p class="info-box-value">Ballas</p></div>
+      <div class="info-box"><p class="info-box-label">Couleur emblématique</p><p class="info-box-value">Violet 🟣</p></div>
+      <div class="info-box"><p class="info-box-label">Territoire</p><p class="info-box-value">Davis & Rancho — South LS</p></div>
+    </div>
+    <div class="card">
+      <p class="card-title">Origine du groupe</p>
+      <p class="card-text">Les Ballas sont l'un des gangs les plus anciens de Los Santos, actifs depuis les années 70. Nés dans les quartiers sud de la ville, ils ont grandi dans l'ombre des Familles avant de les dépasser. Aujourd'hui ils sont structurés en trois sets — South Ranch Ballas, Eastside Ballas et Original Covenant Ballas — sous une seule bannière violette.</p>
+    </div>
+  </section>
+
+  <!-- PRINCIPES -->
+  <section id="principes">
+    <div class="section-label"><span>Principes moraux</span></div>
+    <div class="principes-grid">
+      <div class="principe-card"><span class="pc-num">01</span><p class="pc-text">Ne jamais trahir un frère Ballas — la trahison se paye de sa vie</p></div>
+      <div class="principe-card"><span class="pc-num">02</span><p class="pc-text">Respecter la hiérarchie et les OG du gang en toutes circonstances</p></div>
+      <div class="principe-card"><span class="pc-num">03</span><p class="pc-text">Ne jamais coopérer avec les forces de l'ordre</p></div>
+      <div class="principe-card"><span class="pc-num">04</span><p class="pc-text">Protéger le territoire coûte que coûte — on ne recule jamais</p></div>
+      <div class="principe-card"><span class="pc-num">05</span><p class="pc-text">Tout conflit interne se règle en interne, jamais en public</p></div>
+      <div class="principe-card"><span class="pc-num">06</span><p class="pc-text">Porter le violet avec fierté — c'est notre identité, pas juste une couleur</p></div>
+    </div>
+  </section>
+
+  <!-- RANGS -->
+  <section id="rangs">
+    <div class="section-label"><span>Hiérarchie des rangs</span></div>
+    <div class="rang-horizontal">
+      <div class="rang-h-item rang-og">
+        <span class="rang-h-num">01</span>
+        <p class="rang-h-title">OG</p>
+        <p class="rang-h-sub">Original Gangster</p>
+        <p class="rang-h-desc">Les anciens, les fondateurs. Leur parole est plus important que tout. Personne ne remet en question une décision d'un OG.</p>
+      </div>
+      <div class="rang-h-arrow">→</div>
+      <div class="rang-h-item rang-shot">
+        <span class="rang-h-num">02</span>
+        <p class="rang-h-title">Shot Caller</p>
+        <p class="rang-h-sub">Intermédiaire</p>
+        <p class="rang-h-desc">Les yeux et les oreilles du gang sur le terrain. Ils font le lien entre les OG et les membres actifs.</p>
+      </div>
+      <div class="rang-h-arrow">→</div>
+      <div class="rang-h-item rang-balla">
+        <span class="rang-h-num">03</span>
+        <p class="rang-h-title">Balla</p>
+        <p class="rang-h-sub">Membre confirmé</p>
+        <p class="rang-h-desc">A prouvé sa loyauté et sa valeur. Peut donc participer aux activités du gang et défendre le territoire.</p>
+      </div>
+      <div class="rang-h-arrow">→</div>
+      <div class="rang-h-item rang-young">
+        <span class="rang-h-num">04</span>
+        <p class="rang-h-title">Young Balla</p>
+        <p class="rang-h-sub">Nouveau membre</p>
+        <p class="rang-h-desc">Accepté après un moment. Doit encore faire ses preuves. Pas de prise de décision autonome.</p>
+      </div>
+      <div class="rang-h-arrow">→</div>
+      <div class="rang-h-item rang-prospect">
+        <span class="rang-h-num">05</span>
+        <p class="rang-h-title">Prospect</p>
+        <p class="rang-h-sub">En phase de test</p>
+        <p class="rang-h-desc">Pas encore membre officiel. Surveillé de près par les anciens avant toute acceptation dans l'gang.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOCALISATION -->
+  <section id="localisation">
+    <div class="section-label"><span>Localisation</span></div>
+    <div class="card">
+      <p class="card-title">Territoire</p>
+      <p class="card-text">Les Ballas sont implantés à <strong style="color:#fff">Davis</strong> et <strong style="color:#fff">Rancho</strong>, dans le sud de Los Santos. C'est là qu'on est nés, là qu'on a grandi. Ce quartier est le nôtre et on le défend comme on nous a appris, peu importe qui essaie de s'y installer.</p>
+    </div>
+  </section>
+
+  <!-- HRP -->
+  <section id="hrp">
+    <div class="section-label"><span>Partie Hors Roleplay</span></div>
+    <h2 class="section-title">Dossier HRP</h2>
+    <div class="hrp-grid-3">
+      <div class="hrp-box-new">
+        <span class="hrp-box-icon">🎮</span>
+        <p class="hrp-box-label">Expérience RP</p>
+        <div class="hrp-divider"></div>
+        <p class="hrp-box-text">Lead Famiglia Bonnano<br>FlashLand WL<br>Vision WL — Lead BMF<br>StoryLife WL lead Gang Hors lore<br>+ Nombreuses FA</p>
+      </div>
+      <div class="hrp-box-new hrp-box-mid">
+        <span class="hrp-box-icon">👥</span>
+        <p class="hrp-box-label">Membres</p>
+        <div class="hrp-divider"></div>
+        <div class="hrp-membres">
+          <p>Moi <span>/</span> 1127005492099678208</p>
+          <p>amineeeeee01 <span>/</span> 900334198802489374</p>
+          <p>slay92000 <span>/</span> 1309177447362854922</p>
+          <p>user15172829292911 <span>/</span> 798881388370984960</p>
+          <p>abu.ibrahim.at.tounsi <span>/</span> 1356971240308605039</p>
+          <p>enejota_nay <span>/</span> 508385118432264238</p>
+        </div>
+      </div>
+      <div class="hrp-box-new">
+        <span class="hrp-box-icon">🎂</span>
+        <p class="hrp-box-label">Âge des leaders</p>
+        <div class="hrp-divider"></div>
+        <div class="hrp-leaders">
+          <div class="hrp-leader-row">
+            <span class="hrp-leader-num">01</span>
+            <div><p class="hrp-leader-title">1er Leader</p><p class="hrp-leader-age">20 ans</p></div>
+          </div>
+          <div class="hrp-leader-row">
+            <span class="hrp-leader-num">02</span>
+            <div><p class="hrp-leader-title">2ème Leader</p><p class="hrp-leader-age">19 ans</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOTIVATION -->
+  <section id="motivation">
+    <div class="section-label"><span>Motivation & Apports</span></div>
+    <div class="card">
+      <p class="card-title">Motivation sur Shape</p>
+      <p class="card-text">Apporter un vrai gang structuré et sérieux sur Shape. Créer des rivalités RP réels et crédibles avec d'autres vrai factions et offrir une vraie ambiance de quartier dans Los Santos. Construire une faction qui va au-delà du simple conflit meurtrier.</p>
+    </div>
+    <div class="card">
+      <p class="card-title">Ce que nous apportons au serveur</p>
+      <ul class="principe-list">
+        <li>Rivalités RP organisées et réaliste avec les gangs adverses</li>
+        <li>Contrôle de territoire structuré avec des enjeux clairs</li>
+        <li>Événements de quartier, interactions civils, vie de cités</li>
+        <li>Recrutement sérieux et sélectif pour un RP de qualité</li>
+        <li>Ambiance de rue réaliste et immersive fidèle à notre code des Ballas</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>Ballas · Purple Nation · Shape V1 | WL +18</footer>
+
+</div>
+
+<div class="cursor-light" id="cursorLight"></div>
+
+<canvas id="particles"></canvas>
+
+<script>
+// CURSOR LIGHT
+const light = document.getElementById('cursorLight');
+document.addEventListener('mousemove', e => {
+  light.style.left = e.clientX + 'px';
+  light.style.top = e.clientY + 'px';
+});
+
+// PARTICLES
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+const particles = Array.from({length: 80}, () => ({
+  x: Math.random() * canvas.width,
+  y: Math.random() * canvas.height,
+  r: Math.random() * 1.5 + 0.3,
+  dx: (Math.random() - 0.5) * 0.3,
+  dy: (Math.random() - 0.5) * 0.3,
+  alpha: Math.random() * 0.5 + 0.1
+}));
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.x += p.dx; p.y += p.dy;
+    if(p.x < 0) p.x = canvas.width;
+    if(p.x > canvas.width) p.x = 0;
+    if(p.y < 0) p.y = canvas.height;
+    if(p.y > canvas.height) p.y = 0;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(155,77,202,${p.alpha})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// SCROLL REVEAL
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, {threshold: 0.1});
+document.querySelectorAll('.card,.info-box,.principe-card,.conflict-card,.tl-item,.hrp-box-new,.rang-h-item,section h2,.section-label').forEach(el => {
+  el.classList.add('reveal');
+  observer.observe(el);
+});
+
+// SCROLL PROGRESS BAR + ACTIVE NAV
+const scrollBar = document.getElementById('scrollBar');
+const sections = document.querySelectorAll('section[id]');
+const navItems = document.querySelectorAll('.nav-item');
+
+window.addEventListener('scroll', () => {
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = (window.scrollY / total) * 100;
+  scrollBar.style.height = progress + '%';
+
+  let current = '';
+  sections.forEach(s => {
+    if(window.scrollY >= s.offsetTop - 200) current = s.id;
+  });
+  navItems.forEach(a => {
+    a.classList.remove('active');
+    if(a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+
+// COUNTER ANIMATION
+function animateCounter(el, target, suffix='') {
+  let start = 0;
+  const duration = 2000;
+  const step = timestamp => {
+    if(!start) start = timestamp;
+    const progress = Math.min((timestamp - start) / duration, 1);
+    const val = Math.floor(progress * target);
+    el.textContent = val + suffix;
+    if(progress < 1) requestAnimationFrame(step);
+    else el.textContent = target + suffix;
+  };
+  requestAnimationFrame(step);
+}
+
+// STAGGERED CARD ANIMATIONS
+const cardObserver = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if(e.isIntersecting) {
+      setTimeout(() => {
+        e.target.classList.add('visible');
+      }, e.target.dataset.delay || 0);
+    }
+  });
+}, {threshold: 0.1});
+
+document.querySelectorAll('.principe-card').forEach((el, i) => {
+  el.dataset.delay = i * 100;
+  el.classList.add('reveal');
+  cardObserver.observe(el);
+});
+
+document.querySelectorAll('.conflict-card').forEach((el, i) => {
+  el.dataset.delay = i * 120;
+  el.classList.add('reveal');
+  cardObserver.observe(el);
+});
+
+document.querySelectorAll('.tl-item').forEach((el, i) => {
+  el.dataset.delay = i * 150;
+  el.classList.add('reveal-left');
+  cardObserver.observe(el);
+});
+
+document.querySelectorAll('.rang-h-item').forEach((el, i) => {
+  el.dataset.delay = i * 100;
+  el.classList.add('reveal');
+  cardObserver.observe(el);
+});
+
+document.querySelectorAll('.card,.info-box,.hrp-box-new,.section-label').forEach(el => {
+  el.classList.add('reveal');
+  cardObserver.observe(el);
+});
+
+// STATS COUNTER
+const statsObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      const nums = e.target.querySelectorAll('.stat-num');
+      nums.forEach(n => {
+        const text = n.textContent;
+        if(text === '70S') { n.textContent = '0S'; animateCounter(n, 70, 'S'); }
+        else if(text === '3') { n.textContent = '0'; animateCounter(n, 3, ''); }
+        else if(text === '10+') { n.textContent = '0+'; animateCounter(n, 10, '+'); }
+      });
+      statsObserver.unobserve(e.target);
+    }
+  });
+}, {threshold: 0.5});
+const heroStats = document.querySelector('.hero-stats');
+if(heroStats) statsObserver.observe(heroStats);
+
+// GLITCH EFFECT ON TITLE
+const heroTitle = document.querySelector('.hero-title');
+if(heroTitle) {
+  setInterval(() => {
+    heroTitle.style.textShadow = `${Math.random()*4-2}px 0 rgba(155,77,202,0.8), ${Math.random()*4-2}px 0 rgba(255,255,255,0.3), 0 0 80px rgba(123,47,190,0.9)`;
+    setTimeout(() => {
+      heroTitle.style.textShadow = '0 0 100px rgba(123,47,190,0.9)';
+    }, 80);
+  }, 3000);
+}
+</script>
+
+</body>
+</html>
